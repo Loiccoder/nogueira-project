@@ -1,0 +1,121 @@
+// This function parses a floating point from the input number (n) and then rounds it to the "roundTo" decimal
+// This is because .toFixed isnt as reliable with integers
+// by default the value for roundTo is 2, since that is what the task ask for 
+function round (n, roundTo = 2) {
+    return Number.parseFloat(n).toFixed(roundTo)
+}
+// **OBJECT BASED PROGRAMMING**
+
+// The DIV under the training plan table
+const notes = document.getElementById("table-notes");
+
+// The content on the div when you have nothing selected, which is also the same when begginner is chosen
+const defaultNotes = notes.innerHTML;
+
+// Default values, they are declared outside the function so that they can be saved even if another plan is chosen.
+let privateHours = 1
+let hourPlural = ""
+let competitions = false
+
+
+// creats an object with all the plans and their info, this is used to update the table in the main page and calculate prices on results.js
+const plans = {
+    beginner: {
+        fee: 250,
+        sessions: 2 
+    },
+    intermediate: {
+        fee:300,
+        sessions: 3
+    },
+    elite: {
+        fee: 350,
+        sessions: 5
+    },
+    private: {
+        fee: 90.5,
+        maxHours: 5
+    }
+
+}
+//price for competitions
+const competitionsFee = 220
+// changes the contents on the table, so if the prices or session amounts ever change, they can be edited on the object above
+// and that edit would affect the whole process
+// D.R.Y code stands for "Do Repeat Yourself"
+if (document.getElementById("plan-table")){
+    document.getElementById("beginner-sessions").innerHTML = plans.beginner.sessions
+    document.getElementById("beginner-fee").innerHTML = round(plans.beginner.fee)
+    document.getElementById("intermediate-sessions").innerHTML = plans.intermediate.sessions
+    document.getElementById("intermediate-fee").innerHTML = round(plans.intermediate.fee)
+    document.getElementById("elite-sessions").innerHTML = plans.elite.sessions
+    document.getElementById("elite-fee").innerHTML = round(plans.elite.fee)
+    document.getElementById("private-max-hours").innerHTML = plans.private.maxHours
+    document.getElementById("private-fee").innerHTML = round(plans.private.fee)
+
+}
+
+// **EVENT BASED PROGRAMMING**//
+// Whenever a plan is chosen:
+
+// Checks if there is an radius input to select a training plan
+// Prevents crashes if for some godforsaken reason the js loads before the html
+if (document.querySelector('input[name="training-plan"]')) {
+    /* Waits for the user to click on any of the training plans, distinguishes which plan the user shows,
+    then, changes the innerHTML of the "notes" DIV depending on which training plan is chosen */
+    document.querySelectorAll('input[name="training-plan"]').forEach(
+        el => {
+            el.addEventListener(
+                "change", (e) => {
+                    console.debug(e.target.value+" plan chosen")
+                    switch (e.target.value) {
+                        case 'beginner':
+                            // Since the text for beginner would be the same as when the page loads, it just restores it
+                            notes.innerHTML = defaultNotes
+                        break
+                        // Quoting the document, "Only Intermediate and Elite athletes can enter competitions"
+                        // Therefore people signed up for private lessons can't
+                        // Also this quote helped me realized the training plan names are capitalized, gotta go change that here
+                        case intermediate:
+                        case elite:
+                            notes.innerHTML =  
+                                `<p>Competitions occur every second Saturday of the month.</p>
+                                <p>If you wish to sign up for competitions, you would need to pay an extra AED ${round(competitionsFee)} per competition.</p>
+                                <label for="competitions">Check the button below if you wish to sign up for competitions.</label>
+                                <br>
+                                <input type="checkbox" id="competitions-checkbox" name="competitions" value="enabled" ${competitions ? "checked" : ""}>`
+                                // "Srting ${variable} string" is a quick way to edit a string with a variable
+                                // This used to look much clunkier because I used "string " + variable + " string"
+                        break
+                        case 'private':
+                            notes.innerHTML =
+                                `<br><label for="range-input">Please choose how much hours a week do you wish to take private coaching (maximum 5 hours.)</label>
+                                <br>
+                                <input type="range" min="1" max="5" step="1"  value="${privateHours}" id="range-input" name="private-hours">
+                                <p>You will have <input type="number" min="1" max="5" value="${privateHours}" id="number-input" name="private-hours"> hour<span id="hour-plural">${hourPlural}</span> of private coaching each week.</p>`  
+                            // here i create both a radio input and a number input that both are for choosing how much hours of private lessons the user would take
+                            //I sync up both inputs on the notes.addEventListener below
+                        break
+                    }
+                }
+            )
+        }
+    )
+}else {
+    console.error("No radio inputs for training plans were found for some godforsakenreason")
+}
+//both the private and 
+notes.addEventListener(
+    "input", (e) => {
+        if(e.target.name === "private-hours") {
+            if (['1', '2', '3', '4', '5'].includes(e.target.value)) {
+                privateHours = e.target.value
+            }
+            document.getElementById("range-input").value = document.getElementById("number-input").value = privateHours
+            document.getElementById("hour-plural").innerText = hourPlural = (privateHours === "1") ? "" : "s"
+        }
+        else if(e.target.id === "competitions-checkbox") {
+            competitions = e.target.checked
+        }
+    } 
+)

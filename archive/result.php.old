@@ -1,0 +1,22 @@
+at first i wanted to use php, but then i figured it would make the project more complex and lengthy
+and it is not needed
+the only reason i wanted to implement php is because i wanted to learn php
+but i decided to learn php on the side, as for now i dont fully understand how to implement it, and do not want it interfering this project.
+
+this was just a test file to see if i could display php files with the 'live server' visual studio plugin.
+I could not. I think.
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <?php
+        echo "hi";
+        ?>
+        
+    </body>
+</html>

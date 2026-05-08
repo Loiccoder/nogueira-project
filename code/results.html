@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="results.css">        
+    </head>
+    <body>
+        <h1>Results</h1>
+        <!--A lot of these spans are filled in in results.js with their corresponding data-->
+        <p>Dear <span id="username"></span>, you have chosen the <span id="plan-tier"></span> plan.</p>
+        <h2>Weight clasifications</h2>
+        <p>Weight category chosen: <span id = "weight-category-chosen"></span></p>
+        <p>Notes about your weight category: <span id="weight-category-notes"></span></p> <!--wether or not its the most fitting category-->
+        <h2>Pricing</h2>
+        <p>Below is an itemized list and the total fee for your training experience:</p>
+        <div>
+            <table id="invoice"> <!--meant to emulate a invoice bill-->
+                <tr>
+                    <th>
+                        Item
+                    </th>   
+                    <th>
+                        Monthly fee
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <script src="global.js"></script>
+        <script src="results.js"></script>
+    </body>
+</html>

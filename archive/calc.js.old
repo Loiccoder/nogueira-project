@@ -1,0 +1,75 @@
+THIS IS AN OLD FILE
+i originally tried to use functions that are called wheneevr a label in the plan table is clicked 
+for example, with  "onclick='function(beginner)'" in the <input type="radio" name="training-plan" value="beginner">
+
+this function would call a switch, that not only changed the innerhtml of the notes div, but also created event listeners for the inputs that were created every time the switch chose some cases
+I learnt this is malpractice, it causes recursion and can lead.
+
+i made an experimental branch, temporarily named "calc_copy.js" and changed the function for an event listener.
+and the event listeners that are for the inputs created by the switch are outside the switch, so they are only created once, and filter depending on which input does it come from.
+I later renamed the calc.js into index.js
+
+
+
+
+
+
+
+// The DIV under the training plan table
+const notes = document.getElementById("table-notes");
+
+// The content on the div when you have nothing selected, which is also the same when begginner is chosen
+const defaultNotes = notes.innerHTML;
+
+// Default values, they are declared outside the function so that they can be saved even if another plan is chosen.
+let privateHours = 1
+let hourPlural = ""
+let hourlyPricing = 90.50
+
+
+// Triggers whenever a plan is chosen on
+// Note: I have to change this to an addEventListener instead of a function
+function planChosen(plan) {
+    switch (plan) {
+        case 'private':
+            notes.innerHTML =
+            `<br><label for="range-input">Please choose how much hours a week do you wish to take private coaching (maximum 5 hours.)</label>
+            <br>
+            <input type="range" min="1" max="5" step="1"  value="`+privateHours+`" id="range-input" name="range-input">
+            <p>You will have <input type="number" min="1" max="5" value="`+privateHours+`" id="number-input"> hour<span id="hour-plural"></span> of private coaching each week.</p>
+            <p> This would amount to <span id="private-cost">`+ (+hourlyPricing).toFixed(2) +`</span>  AED weekly.</p>`;
+            
+            let rangeInput = document.getElementById("range-input");
+            let numberInput = document.getElementById("number-input");
+            [rangeInput, numberInput].forEach(el => 
+                {
+                    el.addEventListener("input", (e) => 
+                        {
+                            console.log('EVENT');
+                            
+                            if (['1', '2', '3', '4', '5'].includes(e.target.value)) {
+                                rangeInput.value = numberInput.value = privateHours = e.target.value
+                            }else {
+                                rangeInput.value = numberInput.value = privateHours
+                            }
+                            document.getElementById("private-cost").innerText = hourlyPricing = (+privateHours*90.5).toFixed(2)
+                            document.getElementById("hour-plural").innerText = hourPlural  = (privateHours === "1") ? "" : "s"
+                        }
+                    )
+                }
+            )
+        break
+        case 'beginner':
+            notes.innerHTML = defaultNotes;
+              break
+        default:
+            notes.innerHTML =  
+            `<p>Competitions occur every second Saturday of the month.</p>
+            <p>If you wish to sign up for competitions, you would need to pay an extra AED 220.00 per competition.</p>
+            <label for="competitions">Check the button below if you wish to sign up for competitions.</label>
+            <br>
+            <input type="checkbox" id="competitions" name="competitions" value="enabled">
+            `;
+            break   
+    };
+}

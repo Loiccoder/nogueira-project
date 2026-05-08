@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div id="toast"> <!--This toast pops up in case something goes wrong-->
+            <span id="toast-message"></span>
+            <button id="toast-close">ok</button>
+        </div>
+        <h1>Team Nogueira Registration</h1> <!--funnily enough, the title was one of the las few things i added-->
+        <form action="results.html" method="get" target="_blank" id="form"> <!--target="_blank" opens a new page when submited--> 
+            <!-- NAME -->
+            <div class="line-break"><label>Your full Name: <input type="text" id="name-text-input" name="name" autocomplete="name" required></label></div>
+            <!-- WEIGHT -->
+             <div class="line-break"> <!--The css line-break class makes sure to make them block elements with spacing between the lines-->
+                <label>Please tell us your weight: <input type="number" name="weight" id="weight-number-input" placeholder="80" min="0" max="999" required> Kg.</label>
+            </div>
+            <!-- WEIGHT CATEGORY -->
+             <div class="line-break">
+                <label> 
+                    Please choose which weight category you are competing in: 
+                    <select name="weight-category" id="weight-category-select" required>
+                        <!-- placeholder first, "selected" attribute makes sure its the default value, "disabled" makes it so you cant choose it back, and a blank value makes it unable to submit with it chosen -->
+                        <option value="" selected disabled>Please select one</option>
+                        <option value="flyweight">Flyweight</option>
+                        <option value="lightweight">Lightweight</option>
+                        <option value="light-middleweight">Light-Middleweight</option>
+                        <option value="middleweight">Middleweight</option>
+                        <option value="light-heavyweight">Light-Heavyweight</option>
+                        <option value="heavyweight">Heavyweight</option>
+                    </select>
+                    <!--Info about each category and their limits, '&#9432;' is the info icon, and the title is changed on index.js-->
+                    <abbr id="weight-category-info" class="multiline">&#9432;</abbr>
+                </label>
+            </div>
+            <!-- COMPETITIONS ENTERED THIS MONTH -->
+            <label>
+                Tell us how much competitions have you entered this month. <input type="number" min="0" max="99" name="competitions-this-month" id="competitions-entered" placeholder="0" required>
+            </label>
+            <h3>Please choose which of the following training plans you prefer:</h3>
+            <table id="plan-table">
+                <tr>
+                    <th colspan="4" class="table-title">
+                        Training plans
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Select one
+                    </th>
+                    <th>    
+                        Training level
+                    </th>
+                    <th> Competitions
+                    </th>
+                    <th>
+                        Fee (AED)
+                    </th>
+                </tr>
+                <!-- BEGINNER -->
+                <tr>
+                    <td> 
+                        <label class="cell-label"> <!--The cell-label css class makes sure that the radio input works and looks properly within the cell-->
+                            <!-- if a single radio input has the required attribute then all other radio inputs under the same name have it too -->
+                            <input type="radio" name="training-plan" value="beginner" id="beginner-radio-input" required>
+                        </label>
+                    </td>
+                    <td>
+                        Beginner (<span id="beginner-sessions"></span> per week)
+                    </td>
+                    <td id="beginner-competitions"></td> <!--A bunch of these empty tags are filled in with updatable information in index.js-->
+                    <td>
+                        <span id="beginner-fee"></span> weekly fee
+                    </td>
+                </tr>
+                <!-- INTERMEDIATE -->
+                <tr>
+                    <td>
+                        <label class="cell-label">
+                            <input type="radio" name="training-plan" value="intermediate" id="intermediate-radio-input">
+                        </label>
+                    </td>
+                    <td>
+                        Intermediate (<span id="intermediate-sessions"></span> per week)  
+                    </td>
+                    <td id="intermediate-competitions"></td>
+                    <td>
+                        <span id="intermediate-fee"></span> weekly fee
+                    </td>
+                </tr>
+                <!-- ELITE -->
+                <tr> 
+                    <td>
+                        <label class="cell-label">
+                            <input type="radio" name="training-plan" value="elite" id="elite-radio-input">
+                        </label>
+                    </td>
+                    <td>
+                        Elite (<span id="elite-sessions"></span> per week)
+                    </td>
+                    <td id="elite-competitions"></td>
+                    <td>
+                        <span id="elite-fee"></span> weekly fee
+                    </td>
+                </tr>
+                <!-- PRIVATE -->
+                <tr>
+                    <td>
+                     <label class="cell-label">
+                            <input type="radio" name="training-plan" value="private" id="private-radio-input">
+                        </label>
+                    </td>
+                    <td>
+                        <!--For the sake of logic, private-sessions is for the maximum amounnt of weekly private training hours-->
+                        Private tution (up to <span id="private-sessions"></span>    per week)
+                    </td>
+                    <td id="private-competitions"></td>
+                    <td>
+                        <span id="private-fee"></span> hourly fee
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div id="table-notes" class="line-break"></div> 
+            <input type="submit" value="submit" id="submit" class="line-break">
+        </form>
+        <script src="global.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
